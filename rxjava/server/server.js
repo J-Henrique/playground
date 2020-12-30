@@ -52,7 +52,9 @@ const parseToArray = (map) => {
 }
 
 app.get("/country", function(req, res) {
-    res.json(parseToArray(countries));
+	setTimeout(function() {
+		res.json(parseToArray(countries));
+	  }, 5000);
 });
 
 app.listen(3000, function() {
