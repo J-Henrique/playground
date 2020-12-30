@@ -1,15 +1,18 @@
 package com.jhbb.rxjava
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.jhbb.rxjava.api.Api
+import com.jhbb.rxjava.api.CountryService
 import com.jhbb.rxjava.databinding.ActivityMainBinding
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var service: CountryService
+
     private val countries = listOf(
             "Brasil \n",
             "Alemanha \n",
@@ -18,10 +21,13 @@ class MainActivity : AppCompatActivity() {
             "Austrália \n",
             "Canadá \n")
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        service = Api.getService()
 
         binding.btnObservable.setOnClickListener { observableClick() }
         binding.btnObservableCreate.setOnClickListener { observableCreateClick() }
@@ -30,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSingle1.setOnClickListener { singleJustClick() }
         binding.btnSingle2.setOnClickListener { singleJustNotBlockingClick() }
+        binding.btnSingleRetrofit.setOnClickListener { singleGetCountriesFromApi() }
     }
 
     private fun observableClick() {
@@ -108,6 +115,16 @@ class MainActivity : AppCompatActivity() {
                 c.forEach { t ->
                     Thread.sleep(2000)
                     binding.txtPanel.append(t)
+                }
+            }
+    }
+
+    private fun singleGetCountriesFromApi() {
+        service.getCountries()
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                c -> c.forEach {
+                    binding.txtPanel.append(it.name + "\n")
                 }
             }
     }
