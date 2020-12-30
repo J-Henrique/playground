@@ -4,10 +4,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.jhbb.rxjava.databinding.ActivityMainBinding
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val countries = listOf(
+            "Brasil \n",
+            "Alemanha \n",
+            "Rússia \n",
+            "China \n",
+            "Austrália \n",
+            "Canadá \n")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,30 +25,33 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnObservable.setOnClickListener { observableClick() }
         binding.btnObservableCreate.setOnClickListener { observableCreateClick() }
+        binding.btnObservableFromCallable.setOnClickListener { observableFromCallableClick() }
+        binding.observableFromRange.setOnClickListener { observableFromRangeClick() }
+
+        binding.btnSingle1.setOnClickListener { singleJustClick() }
+        binding.btnSingle2.setOnClickListener { singleJustNotBlockingClick() }
     }
 
     private fun observableClick() {
-        Observable.just(
-            "Brasil \n",
-            "Alemanha \n",
-            "Rússia \n",
-            "China \n",
-            "Austrália \n",
-            "Canadá \n")
-                .subscribe {
-                    binding.txtPanel.append(it.toString())
+        Observable
+            .just(countries)
+            .subscribeOn(Schedulers.io())
+            .doOnComplete { binding.txtPanel.append("Completed\n") }
+            .doOnEach { binding.txtPanel.append("On Each\n") }
+            .doOnNext { binding.txtPanel.append("On Next\n") }
+            .doAfterTerminate { binding.txtPanel.append("After Terminate\n") }
+            .doOnSubscribe { binding.txtPanel.append("Subscribed\n") }
+            .doFinally { binding.txtPanel.append("Finally\n") }
+            .doOnDispose { binding.txtPanel.append("Dispose\n") }
+            .subscribe { c ->
+                c.forEach { t ->
+                    Thread.sleep(2000)
+                    binding.txtPanel.append(t)
                 }
+            }
     }
 
     private fun observableCreateClick() {
-        val countries = listOf(
-                "Brasil \n",
-                "Alemanha \n",
-                "Rússia \n",
-                "China \n",
-                "Austrália \n",
-                "Canadá \n")
-
         val observableCountries = Observable.create<String> {
             emitter ->
                 countries.forEachIndexed {
@@ -58,5 +70,45 @@ class MainActivity : AppCompatActivity() {
                 { binding.txtPanel.append("ERROR") },
                 { binding.txtPanel.append("COMPLETED") }
         )
+    }
+
+    private fun observableFromCallableClick() {
+        Observable
+                .fromCallable { countries }
+                .subscribe { t -> binding.txtPanel.append(t.toString()) }
+    }
+
+    private fun observableFromRangeClick() {
+        Observable.rangeLong(1, 15)
+                .subscribe { binding.txtPanel.append(it.toString()) }
+    }
+
+    private fun singleJustClick() {
+        Single
+            .just(countries)
+            .subscribe { c ->
+                c.forEach { t ->
+                    Thread.sleep(2000)
+                    binding.txtPanel.append(t.toString())
+                }
+            }
+    }
+
+    private fun singleJustNotBlockingClick() {
+        Single
+            .just(countries)
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess { binding.txtPanel.append("Success\n") }
+            .doAfterSuccess { binding.txtPanel.append("After Success\n") }
+            .doAfterTerminate { binding.txtPanel.append("After Terminate\n") }
+            .doOnSubscribe { binding.txtPanel.append("Subscribed\n") }
+            .doFinally { binding.txtPanel.append("Finally\n") }
+            .doOnDispose { binding.txtPanel.append("Dispose\n") }
+            .subscribe { c ->
+                c.forEach { t ->
+                    Thread.sleep(2000)
+                    binding.txtPanel.append(t)
+                }
+            }
     }
 }
