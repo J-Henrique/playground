@@ -3,10 +3,14 @@ package com.jhbb.rxjava
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.rxjava.api.Api
+import com.jhbb.rxjava.api.Country
 import com.jhbb.rxjava.api.CountryService
 import com.jhbb.rxjava.databinding.ActivityMainBinding
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
@@ -121,11 +125,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun singleGetCountriesFromApi() {
         service.getCountries()
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                c -> c.forEach {
-                    binding.txtPanel.append(it.name + "\n")
+                .subscribeOn(Schedulers.io())
+                .doOnError { binding.txtPanel.append(it.message + "\n") }
+                .subscribe{
+                    c -> c.forEach {
+                        binding.txtPanel.append(it.name + "\n")
+                    }
                 }
-            }
     }
 }

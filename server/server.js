@@ -5,7 +5,7 @@ app.use(express.json());
 
 const countries = {
 	1: {
-        id: 1,
+		id: 1,
 		name: 'Brazil',
 		language: 'Portuguese',
 		continent: 'South America',
@@ -13,7 +13,7 @@ const countries = {
 	},
 
 	2: {
-        id: 2,
+		id: 2,
 		name: 'Canada',
 		language: 'English, French',
 		continent: 'North America',
@@ -21,7 +21,7 @@ const countries = {
 	},
 
 	3: {
-        id: 3,
+		id: 3,
 		name: 'Germany',
 		language: 'German',
 		continent: 'Europe',
@@ -29,7 +29,7 @@ const countries = {
 	},
 
 	4: {
-        id: 4,
+		id: 4,
 		name: 'Japan',
 		language: 'Japanese',
 		continent: 'East Asia',
@@ -37,7 +37,7 @@ const countries = {
 	},
 
 	5: {
-        id: 5,
+		id: 5,
 		name: 'Israel',
 		language: 'Hebrew',
 		continent: 'Middle East',
@@ -54,7 +54,7 @@ const parseToArray = (map) => {
 app.get("/country", function(req, res) {
 	setTimeout(function() {
 		res.json(parseToArray(countries));
-	  }, 5000);
+	  }, 3000);
 });
 
 app.listen(3000, function() {
