@@ -127,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         service.getCountries()
                 .subscribeOn(Schedulers.io())
                 .doOnError { binding.txtPanel.append(it.message + "\n") }
+                .onErrorComplete()
                 .subscribe{
                     c -> c.forEach {
                         binding.txtPanel.append(it.name + "\n")

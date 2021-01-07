@@ -1,6 +1,6 @@
 package com.jhbb.rxjava.api
 
-import com.jhbb.rxjava.NetworkInterceptor
+import com.jhbb.rxjava.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,12 +16,11 @@ object Api {
         val httpClient = OkHttpClient.Builder()
 
         httpClient.addInterceptor(loggingInterceptor)
-        httpClient.addInterceptor(NetworkInterceptor())
         httpClient.connectTimeout(30, TimeUnit.SECONDS)
         httpClient.readTimeout(30, TimeUnit.SECONDS)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl(BuildConfig.API_KEY)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(httpClient.build())
