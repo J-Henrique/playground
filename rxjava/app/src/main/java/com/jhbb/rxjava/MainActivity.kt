@@ -3,15 +3,15 @@ package com.jhbb.rxjava
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.rxjava.api.Api
-import com.jhbb.rxjava.api.Country
 import com.jhbb.rxjava.api.CountryService
+import com.jhbb.rxjava.api.MockResponse
 import com.jhbb.rxjava.databinding.ActivityMainBinding
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.core.SingleObserver
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.functions.Action
+import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.xml.transform.Transformer
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,9 +38,14 @@ class MainActivity : AppCompatActivity() {
         binding.btnObservableFromCallable.setOnClickListener { observableFromCallableClick() }
         binding.observableFromRange.setOnClickListener { observableFromRangeClick() }
 
-        binding.btnSingle1.setOnClickListener { singleJustClick() }
-        binding.btnSingle2.setOnClickListener { singleJustNotBlockingClick() }
-        binding.btnSingleRetrofit.setOnClickListener { singleGetCountriesFromApi() }
+        binding.btnSingle200.setOnClickListener { singleGetCountries200() }
+        binding.btnSingle500.setOnClickListener { singleGetCountries500() }
+
+        binding.btnCompletable200.setOnClickListener { completableGetCountries200() }
+        binding.btnCompletable500.setOnClickListener { completableGetCountries500() }
+
+        binding.btnMaybe200.setOnClickListener { maybeGetCountries200() }
+        binding.btnMaybe500.setOnClickListener { maybeGetCountries500() }
     }
 
     private fun observableClick() {
@@ -94,37 +99,22 @@ class MainActivity : AppCompatActivity() {
                 .subscribe { binding.txtPanel.append(it.toString()) }
     }
 
-    private fun singleJustClick() {
-        Single
-            .just(countries)
-            .subscribe { c ->
-                c.forEach { t ->
-                    Thread.sleep(2000)
-                    binding.txtPanel.append(t.toString())
+    private fun singleGetCountries200() {
+        service.getCountriesSingle(MockResponse.OK.key)
+                .subscribeOn(Schedulers.io())
+                .subscribe { countries, error ->
+                    countries?.forEach {
+                        binding.txtPanel.append(it.name + "\n")
+                    }
+
+                    error?.let {
+                        binding.txtPanel.append(it.message + "\n")
+                    }
                 }
-            }
     }
 
-    private fun singleJustNotBlockingClick() {
-        Single
-            .just(countries)
-            .subscribeOn(Schedulers.io())
-            .doOnSuccess { binding.txtPanel.append("Success\n") }
-            .doAfterSuccess { binding.txtPanel.append("After Success\n") }
-            .doAfterTerminate { binding.txtPanel.append("After Terminate\n") }
-            .doOnSubscribe { binding.txtPanel.append("Subscribed\n") }
-            .doFinally { binding.txtPanel.append("Finally\n") }
-            .doOnDispose { binding.txtPanel.append("Dispose\n") }
-            .subscribe { c ->
-                c.forEach { t ->
-                    Thread.sleep(2000)
-                    binding.txtPanel.append(t)
-                }
-            }
-    }
-
-    private fun singleGetCountriesFromApi() {
-        service.getCountries()
+    private fun singleGetCountries500() {
+        service.getCountriesSingle(MockResponse.SERVER_ERROR.key)
                 .subscribeOn(Schedulers.io())
                 .doOnError { binding.txtPanel.append(it.message + "\n") }
                 .onErrorComplete()
@@ -133,5 +123,49 @@ class MainActivity : AppCompatActivity() {
                         binding.txtPanel.append(it.name + "\n")
                     }
                 }
+    }
+
+    private fun completableGetCountries200() {
+        service.getCountriesCompletable(MockResponse.OK.key)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    binding.txtPanel.append("Completed: OK" + "\n")
+                }, {
+                    binding.txtPanel.append("Completed: Error" + "\n")
+                })
+    }
+
+    private fun completableGetCountries500() {
+        service.getCountriesCompletable(MockResponse.SERVER_ERROR.key)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    binding.txtPanel.append("Completed: OK" + "\n")
+                }, {
+                    binding.txtPanel.append("Completed: Error" + "\n")
+                })
+    }
+
+    private fun maybeGetCountries200() {
+        service.getCountriesMaybe(MockResponse.OK.key)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ countries ->
+                    countries?.forEach {
+                        binding.txtPanel.append(it.name + "\n")
+                    }
+                }, {
+                    binding.txtPanel.append(it.message + "\n")
+                })
+    }
+
+    private fun maybeGetCountries500() {
+        service.getCountriesMaybe(MockResponse.SERVER_ERROR.key)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ countries ->
+                    countries?.forEach {
+                        binding.txtPanel.append(it.name + "\n")
+                    }
+                }, {
+                    binding.txtPanel.append(it.message + "\n")
+                })
     }
 }

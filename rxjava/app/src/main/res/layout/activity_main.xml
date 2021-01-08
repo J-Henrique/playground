@@ -57,25 +57,25 @@
         app:layout_constraintTop_toBottomOf="@+id/btnObservableFromCallable" />
 
     <Button
-        android:id="@+id/btnSingle1"
+        android:id="@+id/btnSingle500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#F44336"
-        android:text="Single Blocking"
-        app:layout_constraintEnd_toStartOf="@+id/btnObservableCreate"
+        android:text="Single 500"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSingle200"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <Button
-        android:id="@+id/btnSingle2"
+        android:id="@+id/btnSingle200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F44336"
-        android:text="Single No Blocking"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#3F51B5"
+        android:text="Single 200"
+        app:layout_constraintEnd_toStartOf="@+id/btnObservableCreate"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnObservable"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <View
@@ -86,29 +86,74 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSingle2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSingle200" />
 
     <Button
-        android:id="@+id/btnSingleRetrofit"
+        android:id="@+id/btnCompletable500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#F44336"
-        android:text="Single Retrofit"
+        android:text="Completable 500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnObservable"
+        app:layout_constraintStart_toEndOf="@+id/btnCompletable200"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <Button
-        android:id="@+id/btnSingle5"
+        android:id="@+id/btnCompletable200"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#3F51B5"
+        android:text="Completable 200"
+        app:layout_constraintEnd_toStartOf="@+id/btnCompletable500"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCompletable500" />
+
+    <Button
+        android:id="@+id/btnMaybe500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F44336"
+        android:text="Maybe 500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCompletable200"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <Button
+        android:id="@+id/btnMaybe200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#3F51B5"
-        android:text="Single Blocking"
-        app:layout_constraintEnd_toStartOf="@+id/btnObservableCreate"
+        android:text="Maybe 200"
+        app:layout_constraintEnd_toStartOf="@+id/btnCompletable500"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnSingleRetrofit" />
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMaybe200" />
 
     <TextView
         android:id="@+id/txtPanel"
@@ -119,6 +164,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSingleRetrofit" />
+        app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
