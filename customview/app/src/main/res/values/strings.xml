@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CustomView</string>
+    <string name="random_text_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu viverra est, vitae hendrerit tellus. Suspendisse non mi egestas dolor scelerisque pretium sed eu diam. In hac habitasse platea dictumst. Ut quis urna eu ex maximus viverra. Duis efficitur leo viverra, efficitur ligula ut, eleifend ipsum. Etiam commodo ante quis congue interdum. Vivamus euismod libero sapien, nec mollis nibh rhoncus id. Nulla finibus a dolor at vestibulum.</string>
+    <string name="random_text_2">Curabitur quis velit mi. Ut eu nisi vitae dui euismod ornare ac quis sem. Nulla sed dui massa. Mauris tincidunt eget lectus quis congue. Nulla nunc lectus, ultricies ultrices magna a, semper vestibulum libero.</string>
+    <string name="random_text_3">Donec feugiat porttitor elit sit amet accumsan. Vivamus ac euismod ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin nec nibh in dolor sagittis facilisis sed ut ipsum. Fusce a mauris eros. Sed aliquet ipsum velit, sed gravida eros rhoncus vitae. Mauris molestie sem nec ullamcorper euismod. Donec ornare, metus non dapibus iaculis, diam risus ornare leo, eu tincidunt augue lorem vehicula diam. Vestibulum dictum laoreet condimentum.</string>
+    <string name="random_text_4">Ut sagittis libero vel erat euismod porttitor. Morbi pulvinar dolor at cursus fermentum. Vestibulum et justo et ante bibendum ullamcorper. Maecenas porttitor, justo sit amet vehicula dapibus, lorem magna varius est, at bibendum nisi elit eget nunc. Donec et sem tempor, vulputate dui id, porttitor ligula.</string>
+
+</resources>
